@@ -1,0 +1,1099 @@
+/* ============================================================
+   A Little Book For You — book.css  (full rebuild)
+   ============================================================ */
+
+:root {
+  --barn-red:    #8B1A1A;
+  --barn-red-lt: #A82020;
+  --barn-red-dk: #6B1212;
+  --grass:       #4A7C3F;
+  --grass-lt:    #6A9E5B;
+  --grass-dk:    #2E5226;
+  --sky-top:     #4A90C4;
+  --sky-mid:     #78BBE0;
+  --sky-low:     #B8DFF0;
+  --hay:         #C9A84C;
+  --hay-lt:      #E8CA7A;
+  --fence:       #F5F0E8;
+  --wood-dk:     #3A2210;
+  --wood-mid:    #6B4020;
+  --wood-lt:     #9B6840;
+  --page-cream:  #FDF8F0;
+  --ink:         #2A1A0A;
+  --ink-lt:      #5A3A1A;
+  --ink-faint:   #9A7A5A;
+  --font-h: 'Playfair Display', Georgia, serif;
+  --font-b: 'Lora', Georgia, serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-b);
+  background: var(--sky-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ============================================================
+   SCENE
+   ============================================================ */
+.scene {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Sky */
+.sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #3A80B8 0%, #78BBE0 45%, #C0E8F8 100%);
+}
+
+/* Sun */
+.sun {
+  position: absolute;
+  top: 7%; right: 10%;
+  width: 72px; height: 72px;
+  background: radial-gradient(circle, #FFEE66 20%, #FFC830 58%, transparent 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 60px 28px rgba(255,210,50,0.28);
+  animation: sunPulse 8s ease-in-out infinite;
+}
+@keyframes sunPulse {
+  0%,100% { box-shadow: 0 0 60px 28px rgba(255,210,50,0.28); }
+  50%     { box-shadow: 0 0 90px 44px rgba(255,210,50,0.42); }
+}
+
+/* Clouds */
+.cloud { position: absolute; background: #FFFEF9; border-radius: 60px; opacity: 0.9; }
+.cloud::before, .cloud::after { content: ''; position: absolute; background: #FFFEF9; border-radius: 50%; }
+
+.cloud-1 { top:8%; left:6%; width:130px; height:40px; animation: drift 30s linear infinite; }
+.cloud-1::before { width:64px; height:64px; top:-32px; left:22px; }
+.cloud-1::after  { width:48px; height:48px; top:-24px; left:64px; }
+
+.cloud-2 { top:5%; left:30%; width:90px; height:28px; animation: drift 42s linear infinite; animation-delay:-14s; }
+.cloud-2::before { width:46px; height:46px; top:-23px; left:14px; }
+.cloud-2::after  { width:34px; height:34px; top:-17px; left:46px; }
+
+.cloud-3 { top:16%; left:55%; width:110px; height:34px; animation: drift 36s linear infinite; animation-delay:-22s; }
+.cloud-3::before { width:56px; height:56px; top:-28px; left:20px; }
+.cloud-3::after  { width:42px; height:42px; top:-22px; left:58px; }
+
+@keyframes drift {
+  from { transform: translateX(-200px); }
+  to   { transform: translateX(110vw); }
+}
+
+/* Hills (background) */
+.hill { position: absolute; border-radius: 50%; }
+.hill-l { width:600px; height:220px; bottom:22%; left:-60px;  background: linear-gradient(180deg,#50944A,#347228); }
+.hill-r { width:560px; height:200px; bottom:22%; right:-50px; background: linear-gradient(180deg,#48883C,#306026); }
+.hill-c { width:100%;  height:180px; bottom:22%; left:0;      background: linear-gradient(180deg,#4A7C3F,#2E5226); border-radius: 40% 40% 0 0; }
+
+/* Ground */
+.ground {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 23%;
+  background: linear-gradient(180deg, var(--grass) 0%, var(--grass-dk) 100%);
+}
+/* Grass blade edge */
+.ground::before {
+  content: '';
+  position: absolute;
+  top: -8px; left: 0; right: 0; height: 16px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--grass-lt) 0px, var(--grass-lt) 4px,
+    transparent 4px, transparent 16px
+  );
+  opacity: 0.5;
+}
+
+/* ============================================================
+   BARN  — far right, nothing overlaps it
+   ============================================================ */
+.barn-wrap {
+  position: absolute;
+  right: 3%;
+  bottom: 23%;
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  z-index: 3;
+}
+
+/* Silo */
+.silo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.silo-roof {
+  width: 54px; height: 0;
+  border-left:  27px solid transparent;
+  border-right: 27px solid transparent;
+  border-bottom: 32px solid #9A9080;
+  position: relative; z-index: 1;
+}
+.silo-body {
+  width: 54px; height: 110px;
+  background: linear-gradient(90deg, #C8C0B0 0%, #E8E0D0 50%, #C8C0B0 100%);
+  border: 1px solid #B0A890;
+  position: relative; overflow: hidden;
+  z-index: 1;
+}
+.silo-body::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px, transparent 13px,
+    rgba(0,0,0,0.07) 13px, rgba(0,0,0,0.07) 14px
+  );
+}
+
+/* Barn main body */
+.barn-body {
+  position: relative;
+  width: 170px; height: 120px;
+  background: linear-gradient(90deg, #720E0E 0%, #8B1A1A 35%, #A02020 65%, #720E0E 100%);
+  border: 1.5px solid #5A0A0A;
+  z-index: 2;
+}
+
+/* Barn roof — triangle via SVG so it renders correctly */
+.barn-roof-svg {
+  position: absolute;
+  bottom: 100%; left: -18px;
+  width: calc(100% + 36px);
+  height: 80px;
+  overflow: visible;
+}
+
+/* Barn loft window (arch) */
+.barn-loft {
+  position: absolute;
+  top: 10px;
+  left: 50%; transform: translateX(-50%);
+  width: 36px; height: 30px;
+  background: #1A0808;
+  border: 2px solid #5A0A0A;
+  border-radius: 50% 50% 0 0;
+}
+.barn-loft::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: linear-gradient(135deg, rgba(255,220,80,0.2), transparent);
+  border-radius: 50% 50% 0 0;
+}
+
+/* Barn doors (two panels) */
+.barn-door {
+  position: absolute;
+  bottom: 0;
+  width: 50px; height: 75px;
+  background: linear-gradient(180deg, #5C3317 0%, #3A1A08 100%);
+  border: 2px solid #2A1008;
+  border-radius: 2px 2px 0 0;
+}
+.barn-door-l { left: 16px; }
+.barn-door-r { right: 16px; }
+/* X brace on each door */
+.barn-door::before, .barn-door::after {
+  content: '';
+  position: absolute;
+  width: 130%; height: 2px;
+  background: #2A1008;
+  top: 50%; left: -15%;
+  transform-origin: center;
+}
+.barn-door::before { transform: translateY(-50%) rotate(33deg); }
+.barn-door::after  { transform: translateY(-50%) rotate(-33deg); }
+
+/* Side window */
+.barn-win {
+  position: absolute;
+  top: 16px; right: 12px;
+  width: 24px; height: 22px;
+  background: #1A0808;
+  border: 2px solid #5A0A0A;
+}
+.barn-win::before, .barn-win::after {
+  content: ''; position: absolute; background: #5A0A0A;
+}
+.barn-win::before { width: 100%; height: 2px; top: 50%; transform: translateY(-50%); }
+.barn-win::after  { height: 100%; width: 2px; left: 50%; transform: translateX(-50%); }
+
+/* Weathervane on peak */
+.weathervane {
+  position: absolute;
+  bottom: calc(100% + 80px);
+  left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center;
+  z-index: 4;
+}
+.wv-pole  { width: 2px; height: 22px; background: #8B7040; }
+.wv-bird  { font-size: 14px; line-height: 1; animation: vaneRock 5s ease-in-out infinite; }
+@keyframes vaneRock {
+  0%,100% { transform: rotate(-10deg); }
+  50%     { transform: rotate(10deg); }
+}
+
+/* ============================================================
+   TREES — all SVG-based, reliable rendering
+   ============================================================ */
+.tree {
+  position: absolute;
+  bottom: 23%;
+  z-index: 2;
+}
+
+/* ── Oak tree: trunk + round canopy in one SVG ── */
+/* tree-oak-1: far left */
+.tree-oak-1 { left: 1%; }
+/* tree-oak-2: left, a bit inward */
+.tree-oak-2 { left: 9%; }
+/* tree-oak-3: right side, clear of barn */
+.tree-oak-3 { right: 24%; }
+
+/* ── Pine tree: trunk + stacked triangles in one SVG ── */
+/* tree-pine-1: far right, behind barn area */
+.tree-pine-1 { right: 18%; }
+/* tree-pine-2: left, between oaks */
+.tree-pine-2 { left: 16%; }
+
+/* ============================================================
+   FENCES  — left strip and right strip
+   ============================================================ */
+.fence-row {
+  position: absolute;
+  bottom: 23%;
+  height: 56px;
+  z-index: 4;
+}
+.fence-left  { left: 0;  width: 21%; }
+.fence-right { right: 0; width: 19%; }
+
+.fp { /* post */
+  position: absolute; bottom: 0;
+  width: 11px; height: 56px;
+  background: linear-gradient(180deg, #F5F0E8, #C8BCA8);
+  border-radius: 2px 2px 0 0;
+  box-shadow: 1px 0 3px rgba(0,0,0,0.12);
+}
+/* Left fence posts — evenly spread across 21vw */
+.fence-left .fp:nth-child(1) { left: 0%; }
+.fence-left .fp:nth-child(2) { left: 25%; }
+.fence-left .fp:nth-child(3) { left: 50%; }
+.fence-left .fp:nth-child(4) { left: 75%; }
+.fence-left .fp:nth-child(5) { left: 100%; }
+/* Right fence posts */
+.fence-right .fp:nth-child(1) { left: 0%; }
+.fence-right .fp:nth-child(2) { left: 25%; }
+.fence-right .fp:nth-child(3) { left: 50%; }
+.fence-right .fp:nth-child(4) { left: 75%; }
+.fence-right .fp:nth-child(5) { left: 100%; }
+
+.fr { /* rail */
+  position: absolute; left: 0; right: 0; height: 8px;
+  background: linear-gradient(180deg, #F5F0E8, #C8BCA8);
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+.fr-top { top: 10px; }
+.fr-bot { top: 30px; }
+
+/* ============================================================
+   ANIMALS
+   Left side:  cow · sheep · horse · goat · bird
+   Right side: dog · rabbit · cat · duck · bird
+   Spread out with big gaps so none overlap each other.
+   Book is roughly 30%–70% of screen width.
+   Animals stay in 0–22% (left) and 78–100% (right).
+   ============================================================ */
+/* ── Animal base ── */
+.animal {
+  position: absolute;
+  bottom: 23%;
+  z-index: 5;
+}
+
+/* Butterflies */
+.butterfly { position: absolute; z-index: 6; }
+.bf-1 { left: 26%; bottom: 46%; width: 38px; animation: flutter 4s ease-in-out infinite; }
+.bf-2 { right: 26%; bottom: 54%; width: 32px; animation: flutter 5s ease-in-out infinite 1.5s; }
+
+/* ── Animations ── */
+@keyframes graze {
+  0%,100% { transform: translateY(0); }
+  40%     { transform: translateY(-4px) rotate(-1deg); }
+  70%     { transform: translateY(-2px) rotate(1deg); }
+}
+@keyframes sheepBob {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-4px); }
+}
+@keyframes horseBob {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-6px); }
+}
+@keyframes dogWag {
+  0%,100% { transform: rotate(0deg); }
+  25%     { transform: rotate(2deg); }
+  75%     { transform: rotate(-2deg); }
+}
+@keyframes sitBob {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-5px); }
+}
+@keyframes hopIdle {
+  0%,100%  { transform: translateY(0); }
+  45%, 55% { transform: translateY(-8px); }
+}
+@keyframes duckWaddle {
+  0%,100% { transform: translateX(0) rotate(0deg); }
+  25%     { transform: translateX(4px) rotate(4deg); }
+  75%     { transform: translateX(-4px) rotate(-4deg); }
+}
+@keyframes birdBob {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  50%     { transform: translateY(-6px) rotate(6deg); }
+}
+@keyframes flutter {
+  0%,100% { transform: translate(0,0) rotate(0deg); }
+  25%     { transform: translate(10px,-14px) rotate(8deg); }
+  50%     { transform: translate(20px,-4px) rotate(-5deg); }
+  75%     { transform: translate(6px,10px) rotate(6deg); }
+}
+
+/* Flowers along grass edge */
+.flowers { position: absolute; bottom: 23%; left: 0; right: 0; height: 20px; z-index: 4; }
+.flower  { position: absolute; bottom: 0; width: 10px; height: 18px; }
+.flower::before {
+  content: ''; position: absolute;
+  bottom: 6px; left: 50%; transform: translateX(-50%);
+  width: 2px; height: 12px;
+  background: var(--grass); border-radius: 2px;
+}
+.flower::after {
+  content: ''; position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 9px; height: 9px; border-radius: 50%;
+}
+.f1{left:23%;} .f1::after{background:#E8607A;}
+.f2{left:25%;bottom:3px;} .f2::after{background:#F0C840;}
+.f3{left:27%;} .f3::after{background:#DC8FBB;}
+.f4{left:29%;bottom:2px;} .f4::after{background:#E8A040;}
+.f5{right:23%;} .f5::after{background:#F0A060;}
+.f6{right:25%;bottom:3px;} .f6::after{background:#E87090;}
+.f7{right:27%;} .f7::after{background:#F0C840;}
+.f8{right:29%;bottom:2px;} .f8::after{background:#90D060;}
+
+/* ============================================================
+   STAGE
+   ============================================================ */
+.stage {
+  position: relative;
+  z-index: 10;
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; padding: 1.2rem;
+}
+
+/* ============================================================
+   BOOK COVER
+   ============================================================ */
+.book-cover {
+  display: flex; align-items: stretch;
+  filter: drop-shadow(0 20px 50px rgba(20,8,0,0.44));
+  animation: coverIn 0.7s cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes coverIn {
+  from { opacity:0; transform: translateY(28px) scale(0.94); }
+  to   { opacity:1; transform: translateY(0)    scale(1);    }
+}
+
+.cover-spine-edge {
+  width: 22px;
+  background: linear-gradient(90deg, var(--wood-dk), var(--wood-mid));
+  border-radius: 5px 0 0 5px;
+  box-shadow: inset -3px 0 8px rgba(0,0,0,0.3);
+}
+
+.cover-front {
+  width: 280px;
+  background: linear-gradient(160deg, var(--barn-red-dk) 0%, var(--barn-red) 50%, var(--barn-red-lt) 100%);
+  border-radius: 0 8px 8px 0;
+  padding: 2.6rem 2.2rem 2.2rem;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; position: relative; overflow: hidden;
+}
+.cover-front::before {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(130deg, transparent 0px, transparent 4px, rgba(255,255,255,0.025) 4px, rgba(255,255,255,0.025) 5px);
+  pointer-events: none;
+}
+.cover-ribbon {
+  position: absolute; top: 0; left: 0; right: 0; height: 6px;
+  background: linear-gradient(90deg, var(--hay), var(--hay-lt), var(--hay));
+}
+.cover-paw {
+  font-size: 2.6rem; margin-bottom: 0.9rem;
+  animation: pawPulse 3.5s ease-in-out infinite;
+}
+@keyframes pawPulse {
+  0%,100% { transform: scale(1); }
+  50%     { transform: scale(1.12) rotate(-6deg); }
+}
+.cover-title {
+  font-family: var(--font-h); font-size: 1.75rem; font-weight: 700;
+  color: var(--fence); line-height: 1.22; margin-bottom: 0.5rem;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+}
+.cover-title em { font-style: italic; color: var(--hay-lt); }
+.cover-author {
+  font-size: 0.78rem; font-style: italic;
+  color: rgba(245,240,232,0.55); letter-spacing: 0.1em; margin-bottom: 1.2rem;
+}
+.cover-divider {
+  width: 60%; height: 1px; margin-bottom: 1.2rem;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.55), transparent);
+}
+.cover-animals {
+  display: flex; gap: 9px; font-size: 1.4rem; margin-bottom: 1.8rem;
+}
+.cover-animals span { animation: animalFloat 2.2s ease-in-out infinite; }
+.cover-animals span:nth-child(1){animation-delay:0s;}
+.cover-animals span:nth-child(2){animation-delay:0.18s;}
+.cover-animals span:nth-child(3){animation-delay:0.36s;}
+.cover-animals span:nth-child(4){animation-delay:0.54s;}
+.cover-animals span:nth-child(5){animation-delay:0.72s;}
+@keyframes animalFloat {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-6px); }
+}
+.btn-open {
+  background: var(--fence); color: var(--barn-red);
+  border: none; border-radius: 40px;
+  padding: 0.65rem 1.8rem;
+  font-family: var(--font-h); font-size: 0.92rem; font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+  transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+  letter-spacing: 0.04em;
+}
+.btn-open:hover { background: var(--hay-lt); transform: translateY(-3px); box-shadow: 0 9px 26px rgba(0,0,0,0.3); }
+.btn-open:active { transform: translateY(0); }
+.btn-open:focus-visible { outline: 3px solid var(--hay); outline-offset: 3px; }
+.cover-ornament-bottom {
+  font-size: 0.8rem; color: rgba(245,240,232,0.2);
+  margin-top: 0.8rem; letter-spacing: 0.5em;
+}
+
+/* ============================================================
+   OPEN BOOK
+   ============================================================ */
+.book-open {
+  display: flex; align-items: stretch; position: relative;
+  border-radius: 3px 8px 8px 3px;
+  box-shadow: 0 28px 70px rgba(20,8,0,0.38), 0 6px 20px rgba(20,8,0,0.2);
+  animation: bookSpread 0.5s cubic-bezier(0.22,1,0.36,1) both;
+}
+.book-open.hidden { display: none; }
+@keyframes bookSpread {
+  from { opacity:0; transform: scaleX(0.5) translateY(16px); }
+  to   { opacity:1; transform: scaleX(1)   translateY(0);    }
+}
+
+/* Pages */
+.page {
+  width: 280px; min-height: 420px;
+  background: var(--page-cream);
+  position: relative; overflow: hidden;
+}
+.page-left  {
+  border-radius: 4px 0 0 4px;
+  background: linear-gradient(96deg, #EDE4D0 0%, var(--page-cream) 100%);
+}
+.page-right {
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(264deg, #EDE4D0 0%, var(--page-cream) 100%);
+}
+.page-texture {
+  position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(transparent 0px, transparent 30px, rgba(160,130,90,0.08) 30px, rgba(160,130,90,0.08) 31px);
+}
+.page-inner { padding: 2rem 1.8rem 2.6rem; position: relative; z-index: 1; }
+.page-fold-tl { position:absolute; top:0; left:0; width:24px; height:24px; pointer-events:none; z-index:2; background:linear-gradient(135deg,#CFC0A4 50%,transparent 50%); }
+.page-fold-br { position:absolute; bottom:0; right:0; width:24px; height:24px; pointer-events:none; z-index:2; background:linear-gradient(315deg,#CFC0A4 50%,transparent 50%); }
+.page-num { position:absolute; bottom:14px; font-family:var(--font-h); font-style:italic; font-size:0.7rem; color:var(--ink-faint); z-index:3; }
+.pn-left  { left:1.8rem; }
+.pn-right { right:1.8rem; }
+
+/* Spine */
+.book-spine {
+  width: 32px; flex-shrink: 0;
+  background: linear-gradient(90deg, var(--wood-dk) 0%, var(--wood-mid) 40%, var(--wood-lt) 60%, var(--wood-mid) 100%);
+  position: relative;
+  box-shadow: inset 0 0 12px rgba(0,0,0,0.3);
+}
+.spine-shadow-l { position:absolute; left:0; top:0; bottom:0; width:10px; background:linear-gradient(90deg,rgba(0,0,0,0.22),transparent); }
+.spine-inner    { position:absolute; left:50%; top:20px; bottom:20px; width:3px; transform:translateX(-50%); background:linear-gradient(180deg,transparent,rgba(201,168,76,0.4),transparent); border-radius:2px; }
+.spine-shadow-r { position:absolute; right:0; top:0; bottom:0; width:10px; background:linear-gradient(270deg,rgba(0,0,0,0.22),transparent); }
+
+/* Page typography */
+.pg-chapter { font-family:var(--font-h); font-size:0.62rem; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:var(--barn-red); margin-bottom:0.55rem; display:flex; align-items:center; gap:8px; }
+.pg-chapter::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,var(--barn-red),transparent); opacity:0.35; }
+.pg-heading { font-family:var(--font-h); font-size:1.3rem; font-weight:700; color:var(--ink); line-height:1.3; margin-bottom:0.9rem; }
+.pg-heading em { font-style:italic; color:var(--barn-red); }
+.pg-text { font-family:var(--font-b); font-size:0.86rem; color:var(--ink-lt); line-height:1.9; margin-bottom:0.8rem; }
+.pg-quote { border-left:3px solid var(--hay); padding:0.55rem 0 0.55rem 1rem; margin:0.9rem 0; font-family:var(--font-h); font-style:italic; font-size:0.9rem; color:var(--barn-red); line-height:1.55; }
+.pg-sig   { font-family:var(--font-h); font-style:italic; font-size:1rem; color:var(--ink); margin-top:1rem; }
+.pg-deco  { text-align:center; font-size:1.5rem; margin:0.7rem 0; }
+.pg-paws  { display:flex; gap:5px; margin:0.7rem 0; font-size:0.95rem; }
+.pg-center{ text-align:center; }
+.dropcap  { float:left; font-family:var(--font-h); font-size:3.1rem; font-weight:700; line-height:0.78; color:var(--barn-red); margin-right:5px; margin-top:7px; }
+.pg-illus { background:linear-gradient(135deg,#EDE0C8,#F5EDD8); border:1px solid #D4C4A8; border-radius:4px; padding:0.75rem; text-align:center; margin:0.8rem 0; font-size:1.9rem; line-height:1; }
+.pg-illus p { font-size:0.67rem; color:var(--ink-faint); font-style:italic; margin-top:5px; font-family:var(--font-h); }
+
+/* Navigation */
+.nav-btn { position:absolute; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:50%; border:none; background:rgba(253,248,240,0.95); box-shadow:0 2px 12px rgba(20,8,0,0.22); cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--ink); transition:background 0.18s,transform 0.18s,box-shadow 0.18s; z-index:20; }
+.nav-btn:hover:not(:disabled) { background:var(--fence); transform:translateY(-50%) scale(1.12); box-shadow:0 5px 18px rgba(20,8,0,0.3); }
+.nav-btn:disabled { opacity:0.25; cursor:not-allowed; }
+.nav-btn:focus-visible { outline:2px solid var(--hay); outline-offset:2px; }
+.nav-prev { left:-22px; }
+.nav-next { right:-22px; }
+
+.btn-close { position:absolute; top:-16px; right:6px; background:var(--wood-mid); color:var(--fence); border:none; border-radius:20px; padding:4px 14px; font-size:0.7rem; font-family:var(--font-b); font-weight:500; cursor:pointer; letter-spacing:0.08em; box-shadow:0 2px 10px rgba(0,0,0,0.24); transition:background 0.18s,transform 0.15s; z-index:20; }
+.btn-close:hover { background:var(--barn-red); transform:translateY(-1px); }
+.btn-close:focus-visible { outline:2px solid var(--hay); outline-offset:2px; }
+
+/* Page flip */
+.flip-out-l { animation:flipOutL 0.26s ease-in  both; }
+.flip-in-l  { animation:flipInL  0.26s ease-out both; }
+.flip-out-r { animation:flipOutR 0.26s ease-in  both; }
+.flip-in-r  { animation:flipInR  0.26s ease-out both; }
+@keyframes flipOutL { from{opacity:1;transform:perspective(900px) rotateY(0);}    to{opacity:0;transform:perspective(900px) rotateY(14deg);} }
+@keyframes flipInL  { from{opacity:0;transform:perspective(900px) rotateY(-14deg);}to{opacity:1;transform:perspective(900px) rotateY(0);} }
+@keyframes flipOutR { from{opacity:1;transform:perspective(900px) rotateY(0);}    to{opacity:0;transform:perspective(900px) rotateY(-14deg);} }
+@keyframes flipInR  { from{opacity:0;transform:perspective(900px) rotateY(14deg);}to{opacity:1;transform:perspective(900px) rotateY(0);} }
+
+/* Responsive */
+@media(max-width:700px){
+  .page{width:43vw;min-height:62vw;}
+  .page-inner{padding:1.1rem 0.9rem 2rem;}
+  .pg-heading{font-size:1rem;}
+  .pg-text{font-size:0.75rem;}
+  .book-spine{width:18px;}
+  .nav-prev{left:-18px;} .nav-next{right:-18px;}
+  .cover-front{width:250px;}
+  .a-goat,.a-bird-l{display:none;}
+  .a-duck,.a-bird-r{display:none;}
+}
+
+/* ── Tree positions ── */
+.tree-oak-1  { left: 1%;   bottom: 23%; z-index: 2; }
+.tree-oak-2  { left: 9%;   bottom: 23%; z-index: 2; }
+.tree-pine-1 { left: 17%;  bottom: 23%; z-index: 2; }
+.tree-oak-3  { right: 24%; bottom: 23%; z-index: 2; }
+.tree-pine-2 { right: 32%; bottom: 23%; z-index: 2; }
+
+/* ══════════════════════════════════════════════════════
+   ANIMAL POSITIONS
+   ALL animals stay on the grass (bottom: 23%).
+   Depth illusion = smaller size + higher z-index for
+   front animals, lower z-index for back ones.
+   Horizontal spacing keeps every animal clearly visible.
+   Birds sit on the fence top (fence top ≈ 23% + 56px).
+   ══════════════════════════════════════════════════════ */
+
+/* ── LEFT SIDE ── */
+
+/* COW: far left edge, large, front */
+/* ══════════════════════════════════════════════════
+   FINAL ANIMAL POSITIONS
+   All animals stay on the grass at bottom:23%.
+   Depth is shown by size only — bigger = closer.
+   Left zone:  left 0% to 21%   (5 animals)
+   Right zone: right 0% to 21%  (5 animals)
+   Pond zone:  right 19% — duck matches pond x.
+   Birds only go higher because they sit on fence posts.
+   ══════════════════════════════════════════════════ */
+
+/* ── LEFT ── */
+.a-cow {
+  left: 0%;
+  bottom: 23%;
+  width: 115px;
+  z-index: 6;
+  animation: graze 4s ease-in-out infinite;
+}
+.a-sheep {
+  left: 8%;
+  bottom: 23%;
+  width: 75px;
+  z-index: 5;
+  animation: sheepBob 3.6s ease-in-out infinite 0.5s;
+}
+.a-goat {
+  left: 13%;
+  bottom: 23%;
+  width: 85px;
+  z-index: 5;
+  animation: graze 5s ease-in-out infinite 1s;
+}
+.a-horse {
+  left: 18%;
+  bottom: 23%;
+  width: 120px;
+  z-index: 6;
+  animation: horseBob 2.8s ease-in-out infinite 1.5s;
+}
+/* Bird sits on top of fence post — fence is ~56px tall above ground line */
+.a-bird-l {
+  left: 21%;
+  bottom: calc(23% + 54px);
+  width: 42px;
+  z-index: 7;
+  animation: birdBob 2.2s ease-in-out infinite;
+}
+
+/* ── RIGHT ── */
+.a-dog {
+  right: 0%;
+  bottom: 23%;
+  width: 110px;
+  z-index: 6;
+  animation: dogWag 1.8s ease-in-out infinite;
+}
+.a-rabbit {
+  right: 8%;
+  bottom: 23%;
+  width: 60px;
+  z-index: 5;
+  animation: hopIdle 3s ease-in-out infinite 0.5s;
+}
+.a-cat {
+  right: 13%;
+  bottom: 23%;
+  width: 70px;
+  z-index: 5;
+  animation: sitBob 3.4s ease-in-out infinite 1s;
+}
+/* Duck sits in the pond — pond is at right:19.5%, slightly lower than ground */
+.a-duck {
+  right: 18%;
+  bottom: 23%;
+  width: 60px;
+  z-index: 5;
+  animation: duckWaddle 2.6s ease-in-out infinite 1.5s;
+}
+/* Bird sits on top of right fence post */
+.a-bird-r {
+  right: 21%;
+  bottom: calc(23% + 54px);
+  width: 42px;
+  z-index: 7;
+  animation: birdBob 2.4s ease-in-out infinite 0.4s;
+}
+
+/* Butterflies float in air */
+.bf-1 { left: 25%;  bottom: 48%; }
+.bf-2 { right: 25%; bottom: 54%; }
+
+/* ============================================================
+   NEW ADDITIONS
+   ============================================================ */
+
+/* ── Dirt path leading to barn ── */
+.dirt-path {
+  position: absolute;
+  bottom: 0;
+  right: 3%;
+  width: 120px;
+  height: 24%;
+  background: linear-gradient(180deg, #B8935A 0%, #A07840 60%, #8B6530 100%);
+  clip-path: polygon(28% 0%, 72% 0%, 100% 100%, 0% 100%);
+  z-index: 2;
+  opacity: 0.72;
+}
+.dirt-path::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0px, transparent 8px,
+    rgba(0,0,0,0.06) 8px, rgba(0,0,0,0.06) 9px
+  );
+}
+
+
+
+/* ── Animal ground shadows ── */
+.animal::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 8px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.22) 0%, transparent 75%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* ── Tree sway animation ── */
+.tree {
+  transform-origin: bottom center;
+  animation: treeSway 6s ease-in-out infinite;
+}
+.tree-oak-2  { animation-delay: -1s; }
+.tree-pine-1 { animation-delay: -2s; animation-duration: 5s; }
+.tree-oak-3  { animation-delay: -3s; }
+.tree-pine-2 { animation-delay: -4s; animation-duration: 7s; }
+@keyframes treeSway {
+  0%,100% { transform: rotate(0deg); }
+  25%     { transform: rotate(1.2deg); }
+  75%     { transform: rotate(-1.2deg); }
+}
+
+/* ── Speech bubbles ── */
+.speech-bubble {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.85);
+  background: #FFFDF5;
+  border: 1.5px solid #C9A84C;
+  border-radius: 12px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-family: 'Lora', Georgia, serif;
+  color: #3A2210;
+  white-space: nowrap;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 20;
+}
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 7px solid #C9A84C;
+}
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  top: 100%; left: 50%;
+  transform: translateX(-50%) translateY(-1px);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #FFFDF5;
+  z-index: 1;
+}
+.speech-bubble.visible {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* ── Confetti ── */
+.confetti-container {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 50;
+  overflow: hidden;
+}
+.confetti-piece {
+  position: absolute;
+  top: -12px;
+  animation: confettiFall linear both;
+}
+@keyframes confettiFall {
+  0%   { transform: translateY(0)    rotate(0deg)   scaleX(1); opacity: 1; }
+  50%  { transform: translateY(40vh) rotate(180deg) scaleX(-1); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(360deg) scaleX(1); opacity: 0; }
+}
+
+/* ── Heart particles ── */
+.heart-container {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 9;
+  overflow: hidden;
+}
+.heart-particle {
+  position: absolute;
+  bottom: 55%;
+  animation: heartFloat linear both;
+  color: #E87090;
+  font-style: normal;
+  pointer-events: none;
+  line-height: 1;
+}
+@keyframes heartFloat {
+  0%   { transform: translateY(0) scale(1);    opacity: 1; }
+  60%  { transform: translateY(-120px) scale(1.1); opacity: 0.8; }
+  100% { transform: translateY(-220px) scale(0.7); opacity: 0; }
+}
+
+/* ── Progress dots ── */
+.progress-dots {
+  position: absolute;
+  bottom: -34px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  z-index: 20;
+}
+.prog-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: rgba(245,240,232,0.45);
+  border: 1.5px solid rgba(245,240,232,0.6);
+  cursor: pointer;
+  transition: background 0.25s, transform 0.25s, border-color 0.25s;
+}
+.prog-dot.active {
+  background: #C9A84C;
+  border-color: #C9A84C;
+  transform: scale(1.35);
+}
+.prog-dot:hover:not(.active) {
+  background: rgba(245,240,232,0.75);
+  transform: scale(1.15);
+}
+
+/* ============================================================
+   CUTE IMPROVEMENTS
+   ============================================================ */
+
+
+
+/* ── Extra flowers spread all across grass ── */
+.f9  { left: 3%;  } .f9::after  { background: #F0A0C0; }
+.f10 { left: 48%; bottom: 2px; } .f10::after { background: #A0D0F0; }
+.f11 { right: 3%; } .f11::after { background: #C0F080; }
+.f12 { left: 50%; } .f12::after { background: #FFD700; }
+
+/* ── Mushrooms ── */
+.mushroom {
+  position: absolute;
+  bottom: 0;
+  width: 14px; height: 18px;
+}
+.mushroom::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 4px; height: 9px;
+  background: #E8D8C0;
+  border-radius: 2px;
+}
+.mushroom::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 14px; height: 10px;
+  border-radius: 50% 50% 0 0;
+}
+.m1 { left: 35%; } .m1::after { background: #E85030; }
+.m2 { right: 35%; bottom: 2px; } .m2::after { background: #D04020; }
+.m3 { left: 51%; } .m3::after { background: #E86030; }
+/* white dots on mushroom cap */
+.mushroom::before {
+  box-shadow: 0 0 0 0 transparent;
+}
+
+
+
+
+
+
+
+/* ── Glowing barn window ── */
+.barn-glow {
+  position: absolute;
+  top: 8px; right: 8px;
+  width: 28px; height: 26px;
+  background: radial-gradient(ellipse, rgba(255,200,60,0.6) 0%, rgba(255,160,20,0.3) 50%, transparent 100%);
+  border-radius: 2px;
+  animation: barnGlow 3s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes barnGlow {
+  0%,100% { opacity: 0.6; }
+  50%     { opacity: 1; }
+}
+
+/* ============================================================
+   NEW: Cloud 4, Flying Birds, Hay Bales
+   ============================================================ */
+
+/* ── 4th cloud — upper left area ── */
+.cloud-4 {
+  top: 12%;
+  left: 18%;
+  width: 76px;
+  height: 24px;
+  animation: drift 50s linear infinite;
+  animation-delay: -34s;
+}
+.cloud-4::before {
+  width: 38px; height: 38px;
+  top: -19px; left: 10px;
+}
+.cloud-4::after {
+  width: 28px; height: 28px;
+  top: -13px; left: 38px;
+}
+
+/* ── Flying birds in sky ── */
+.sky-birds {
+  position: absolute;
+  top: 14%;
+  left: 38%;
+  z-index: 1;
+  pointer-events: none;
+  animation: birdsFly 22s linear infinite;
+}
+.sky-bird {
+  position: absolute;
+  font-size: 13px;
+  color: #2A5080;
+  opacity: 0.55;
+  font-style: normal;
+  line-height: 1;
+  transform: scaleY(0.55);
+}
+.sb1 { top: 0px;   left: 0px;  font-size: 14px; }
+.sb2 { top: 10px;  left: 18px; font-size: 11px; }
+.sb3 { top: 10px;  left: -18px; font-size: 11px; }
+
+@keyframes birdsFly {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(60vw); }
+}
+
+/* ── Hay bales ── */
+.hay-bale {
+  position: absolute;
+  bottom: 23%;
+  z-index: 3;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #E8C84A 0%, #D4A830 50%, #C09020 100%);
+  border: 2px solid #A07820;
+  box-shadow: 2px 3px 8px rgba(0,0,0,0.18);
+}
+/* stripes on bale */
+.hay-bale::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px, transparent 5px,
+    rgba(160,120,20,0.25) 5px, rgba(160,120,20,0.25) 6px
+  );
+}
+.hay-bale::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px, transparent 5px,
+    rgba(160,120,20,0.18) 5px, rgba(160,120,20,0.18) 6px
+  );
+}
+.hb-1 {
+  right: 25%;
+  width: 38px;
+  height: 34px;
+  bottom: 23%;
+}
+.hb-2 {
+  right: 27%;
+  width: 30px;
+  height: 26px;
+  bottom: calc(23% + 30px);
+}
+
+/* ── Extra bird flocks ── */
+
+/* Second flock: higher up, slower, drifts from left */
+.sky-birds-2 {
+  position: absolute;
+  top: 7%;
+  left: -10%;
+  z-index: 1;
+  pointer-events: none;
+  animation: birdsFly 34s linear infinite;
+  animation-delay: -10s;
+}
+.sky-birds-2 .sky-bird { font-size: 10px; opacity: 0.4; color: #1A3A60; }
+.sky-birds-2 .sb4 { top: -8px; left: 2px; font-size: 9px; }
+
+/* Third flock: lower, faster, smaller */
+.sky-birds-3 {
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  z-index: 1;
+  pointer-events: none;
+  animation: birdsFly 16s linear infinite;
+  animation-delay: -5s;
+}
+.sky-birds-3 .sky-bird { font-size: 9px; opacity: 0.45; color: #2A5080; }
+
+/* ── Extra hay bales — stacked pile ── */
+
+/* Bottom row: 3 bales side by side */
+.hb-3 {
+  right: 23%;
+  width: 38px;
+  height: 34px;
+  bottom: 23%;
+  z-index: 3;
+}
+/* Second row: 2 bales stacked on top of bottom row */
+.hb-4 {
+  right: 24.2%;
+  width: 30px;
+  height: 26px;
+  bottom: calc(23% + 34px);
+  z-index: 3;
+}
+/* Top: 1 bale on peak */
+.hb-5 {
+  right: 25%;
+  width: 24px;
+  height: 20px;
+  bottom: calc(23% + 60px);
+  z-index: 3;
+}
